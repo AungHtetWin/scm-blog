@@ -57,7 +57,7 @@
             <label for="password">Password</label>
             <input type="password" class="form-control form-control-sm col-12" name="password" id="password">
         </div>
-        <a href="register.php">Register Here?</a>
+        <a href="admin/register.php">Register Here?</a>
        <button class="btn mt-3 btn-lg btn-primary btn-block" type="submit" name="submit" id="submit">Login</button>
     </form>
   </div>

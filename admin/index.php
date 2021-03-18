@@ -85,22 +85,24 @@
           while($postrow = mysqli_fetch_assoc($post_result)): 
           $postid= $postrow['id'];
         ?>
-          <!-- Title -->
-          <h1 class="mt-4"><?php echo $postrow['title'] ?></h1>
+         
+              <!-- Title -->
+              <a href="post-show.php?id=<?php echo $postrow['id']?>"><h1 class="mt-4"><?php echo $postrow['title'] ?></h1></a>
 
-          <!-- Author -->
-          <p class="lead">
-            by
-            <a href="#"><?php echo $row['name'] ?> </a>
-          </p>
-          <hr>
-          <!-- Date/Time -->
-          <p>Posted on <?php echo $postrow['created_date'] ?></p>
-          <hr>
+              <!-- Author -->
+              <p class="lead">
+                by
+                <a href="#"><?php echo $row['name'] ?> </a>
+              </p>
+              <hr>
+              <!-- Date/Time -->
+              <p>Posted on <?php echo $postrow['created_date'] ?></p>
+              <hr>
 
-          <!-- Post Content -->
-          <p><?php echo $postrow['body'] ?></p>
-          <hr>
+              <!-- Post Content -->
+              <p><?php echo $postrow['body'] ?></p>
+              <hr> 
+        
           <a href="post-edit.php?id=<?php echo $postrow['id'] ?>">[ Edit ]</a>
 
           <!-- Comments Form -->

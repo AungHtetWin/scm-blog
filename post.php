@@ -116,7 +116,6 @@
           </div>
           <?php 
              if(isset($_POST['submit'.$postid])){
-              
                 $postcomment= $_POST['comment'];
                 $sql = "INSERT INTO comments (user_id, post_id, body, created_date) 
                 VALUES ('$userid', '$postid', '$postcomment', now())";
