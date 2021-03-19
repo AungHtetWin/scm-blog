@@ -13,8 +13,8 @@
         $cpassword = $_POST['cpassword'];
         if($name !="" && $email != "" && $password != "" && $cpassword !=""){
             if($password == $cpassword){
-                $sql = "INSERT INTO users (name, email, password, confirm_password ,created_date) 
-                VALUES ('$name', '$email', '$password', '$cpassword' ,now())";
+                $sql = "INSERT INTO users (name, email, password, confirm_password ,created_date, modified_date) 
+                VALUES ('$name', '$email', '$password', '$cpassword' ,now(), now())";
                 mysqli_query($conn, $sql);
                 header("location: login.php"); 
             }
@@ -54,7 +54,7 @@
        <?php echo $errormessage ?>
      </div>
      <?php } ?> 
-     <h2>Register Form</h2>
+     
     <form action="register.php" method="post">
         <div class="form-group mt-3">
             <label for="name">User Name</label>

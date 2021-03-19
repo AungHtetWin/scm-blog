@@ -16,7 +16,7 @@
   <meta name="author" content="">
 
   <title>Blog Post | Post</title>
-  <link rel="stylesheet" href="../css/style.css">
+  
   <!-- Bootstrap core CSS -->
   <link href="../css/bootstrap.min.css" rel="stylesheet">
   
@@ -24,6 +24,7 @@
   <script src="../js/jquery.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   
+  <link rel="stylesheet" href="../css/style.css">
   
 </head>
 <body>
@@ -38,7 +39,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="index.php">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>
@@ -110,7 +111,9 @@
             ?>
             
                 <!-- Title -->
-                <a href="post-show.php?id=<?php echo $postrow['id']?>"><h1 class="mt-4"><?php echo $postrow['title'] ?></h1></a>
+                <h1 class="mt-4">
+                   <a href="post-show.php?id=<?php echo $postrow['id']?>" id="clear_underline"><?php echo $postrow['title'] ?></a>
+                </h1>
 
                 <!-- Author -->
                 <p class="lead">

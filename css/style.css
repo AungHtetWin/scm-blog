@@ -1,6 +1,9 @@
 body {
     padding-top: 56px;
   }
+ #clear_underline :hover{
+    text-decoration: none;
+  }
   #mainNav{
     position: absolute;
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
