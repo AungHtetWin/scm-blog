@@ -6,9 +6,15 @@
     $email = $_POST['email'];
     $password = $_POST['password'];
     $cpassword = $_POST['cpassword'];
-        if($name !="" && $email != "" && $password != "" && $cpassword !=""){
+    $userid= $_POST['roleid'];
+    $img = $_FILES['photo']['name'];
+    $tmp = $_FILES['photo']['tmp_name'];
+    if($img) {
+     move_uploaded_file($tmp, "../images/$img");
+    }
+        if($name !="" && $email != "" && $password != "" && $cpassword !="" && $img != ""){
             if($password == $cpassword){
-                $sql = "UPDATE users SET name='$name', email='$email', password='$password', confirm_password='$cpassword',modified_date=now() WHERE id=$id"; 
+                $sql = "UPDATE users SET name='$name', email='$email', password='$password', confirm_password='$cpassword',role_id='$userid',image='$img', modified_date=now() WHERE id=$id"; 
                 mysqli_query($conn, $sql);
                 header("location: user-show.php"); 
             }

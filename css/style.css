@@ -1,7 +1,7 @@
 body {
     padding-top: 56px;
   }
- #clear_underline :hover{
+  #clear_underline:hover{
     text-decoration: none;
   }
   #mainNav{

@@ -1,7 +1,12 @@
 <?php
  session_start();
  include("../connectdb.php");
- $userid = $_SESSION['userid'];
+ if(isset($_SESSION['userid'])){
+  $userid = $_SESSION['userid'];
+ }
+ else{
+   $userid=1;
+ }
  $result= mysqli_query($conn ,"SELECT * FROM users WHERE id=$userid");
  $row = mysqli_fetch_assoc($result);
 ?>
@@ -15,9 +20,11 @@
   <meta name="author" content="">
 
   <title>Blog Post | Home</title>
-  <link rel="stylesheet" href="../css/style.css">
+ 
   <!-- Bootstrap core CSS -->
   <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
   
   <!-- Bootstrap core JavaScript -->
   <script src="../js/jquery.min.js"></script>
@@ -81,26 +88,28 @@
       <!-- Post Content Column -->
       <div class="col-lg-8">
         <?php 
-          $post_result = mysqli_query($conn, "SELECT * FROM posts ORDER BY created_date DESC"); 
+          $post_result = mysqli_query($conn, "SELECT posts.id,posts.image,posts.title,posts.body,posts.created_date,posts.modified_date,posts.user_id,users.name FROM posts,users WHERE posts.user_id=users.id ORDER BY created_date DESC"); 
           while($postrow = mysqli_fetch_assoc($post_result)): 
           $postid= $postrow['id'];
         ?>
          
               <!-- Title -->
-              <h1 class="mt-4">
-                <a href="post-show.php?id=<?php echo $postrow['id']?>" id="clear_underline"><?php echo $postrow['title'] ?></a>
+              <h1 class="mt-4" id="clear_underline">
+                <a href="post-show.php?id=<?php echo $postrow['id']?>"><?php echo $postrow['title'] ?></a>
               </h1>
 
               <!-- Author -->
               <p class="lead">
                 by
-                <a href="#"><?php echo $row['name'] ?> </a>
+                <a href="#"><?php echo $postrow['name'] ?> </a>
               </p>
               <hr>
               <!-- Date/Time -->
               <p>Posted on <?php echo $postrow['created_date'] ?></p>
               <hr>
-
+              <!-- Preview Image -->
+              <img class="img-fluid rounded" src="../images/<?php echo $postrow['image'] ?>" style="width: auto; height: 195px;" alt="Blog Image">
+              <hr>
               <!-- Post Content -->
               <p><?php echo $postrow['body'] ?></p>
               <hr> 
@@ -128,13 +137,13 @@
              }
           ?>    
             <?php 
-              $commentresult =mysqli_query($conn ,"select c.post_id,c.body,u.name from users u join comments c on u.id=c.user_id join posts p on p.id=c.post_id"); 
+              $commentresult =mysqli_query($conn ,"select c.post_id,c.body,u.image,u.name from users u join comments c on u.id=c.user_id join posts p on p.id=c.post_id"); 
               while($commentrow = mysqli_fetch_assoc($commentresult)): 
             ?>
               <?php if($postrow['id'] == $commentrow['post_id']){ ?> 
                 <!-- Single Comment --> 
                 <div class="media mb-4">
-                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                  <img class="d-flex mr-3 rounded-circle" src="../images/<?php echo $commentrow['image'] ?>" style="width: 50px; height: 50px;" alt="Blog Image">
                   <div class="media-body">
                     <h5 class="mt-0"> <?php echo $commentrow['name'] ?> </h5>
                     <?php echo $commentrow['body'] ?>

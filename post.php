@@ -108,8 +108,8 @@
             ?>
             
                 <!-- Title -->
-                <h1 class="mt-4">
-                  <a href="post.php?id=<?php echo $postrow['id']?>" id="clear_underline"><?php echo $postrow['title'] ?></a>
+                <h1 class="mt-4" id="clear_underline">
+                  <a href="post.php?id=<?php echo $postrow['id']?>"><?php echo $postrow['title'] ?></a>
                 </h1>
 
                 <!-- Author -->

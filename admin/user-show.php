@@ -2,7 +2,6 @@
  session_start();
  include("../connectdb.php");
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,7 +99,7 @@
         <!--user details Column -->
         <div class="col-md-8">
          
-            <form action="user-edit.php" method="post">
+            <form action="user-edit.php" method="post" enctype="multipart/form-data">
                 <?php 
                 if(isset($_GET['id'])){
                     $id=$_GET['id'];
@@ -128,9 +127,17 @@
                         <label for="cpassword">Confirm Password</label>
                         <input type="password" class="form-control form-control-sm col-12" name="cpassword" id="cpassword" value="<?php echo $row['confirm_password'] ?>">
                     </div>
+                    <div class="form-group">
+                        <img src="../images/<?php echo $row['image'] ?>" alt="" height="150"><br>
+                        <label for="photo">Choose a Photo</label> 
+                        <input type="file" name="photo" id="photo"> 
+                    </div>
+                    <div class="form-group">
+                        <label for="roleid">Role ID</label>
+                        <input type="text" class="form-control form-control-sm col-12" name="roleid" id="roleid" value="<?php echo $row['role_id'] ?>">
+                    </div>
                     
-                     <button class="btn btn-lg btn-primary btn-block mb-3" type="submit" name="submit" id="submit">Edit User</button>
-                    
+                     <button class="btn btn-lg btn-primary btn-block mb-3" type="submit" name="submit" id="submit">Edit User</button>  
                 <?php endwhile; ?>
             </form>  
           

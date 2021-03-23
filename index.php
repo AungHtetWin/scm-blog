@@ -1,7 +1,13 @@
 <?php
  session_start();
  include("connectdb.php");
- $userid = $_SESSION['userid'];
+ if(isset($_SESSION['userid'])){
+  $userid = $_SESSION['userid'];
+ }
+ else{
+   $userid=1;
+ }
+ 
  $result= mysqli_query($conn ,"SELECT * FROM users WHERE id=$userid");
  $row = mysqli_fetch_assoc($result);
 ?>
@@ -82,25 +88,29 @@
       <!-- Post Content Column -->
       <div class="col-lg-8">
         <?php 
-          $post_result = mysqli_query($conn, "SELECT * FROM posts ORDER BY created_date DESC"); 
+          $post_result = mysqli_query($conn, "SELECT posts.id,posts.image,posts.title,posts.body,posts.created_date,posts.modified_date,posts.user_id,users.name FROM posts,users WHERE posts.user_id=users.id ORDER BY created_date DESC"); 
           while($postrow = mysqli_fetch_assoc($post_result)): 
           $postid= $postrow['id'];
         ?>
           <!-- Title -->
           
-          <h1 class="mt-4"><a href="post.php?id=<?php echo $postrow['id']?>" id="clear_underline"><?php echo $postrow['title'] ?></a></h1>
+          <h1 class="mt-4" id="clear_underline">
+            <a href="post.php?id=<?php echo $postrow['id']?>"><?php echo $postrow['title'] ?></a>
+          </h1>
           
 
           <!-- Author -->
           <p class="lead">
-            by
-            <a href="#"><?php echo $row['name'] ?> </a>
+            by  
+            <a href="#"><?php echo $postrow['name'] ?> </a>
           </p>
           <hr>
           <!-- Date/Time -->
           <p>Posted on <?php echo $postrow['created_date'] ?></p>
           <hr>
-
+          <!-- Preview Image -->
+          <img class="img-fluid rounded" src="images/<?php echo $postrow['image'] ?>" style="width: auto; height: 195px;" alt="Blog Image">
+          <hr>
           <!-- Post Content -->
           <p><?php echo $postrow['body'] ?></p>
           <hr>

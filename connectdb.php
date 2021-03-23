@@ -2,7 +2,7 @@
  $dbhost = "localhost";
  $dbuser = "root";
  $dbpass = "";
- $dbname = "blog";
+ $dbname = "scm-blog";
  $conn = mysqli_connect($dbhost, $dbuser, $dbpass);
  mysqli_select_db($conn, $dbname);
 ?>
