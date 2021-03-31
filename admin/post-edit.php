@@ -41,6 +41,7 @@
             <input type="text" class="form-control form-control-sm col-12" name="post-title" id="post-title" value="<?php echo $row['title'] ?>">
         </div>
         <div class="form-group">
+            <img src="../images/<?php echo $row['image'] ?>" alt="" height="150"><br>
             <label for="photo">Choose a Photo</label> 
             <input type="file" name="photo" id="photo" value="<?php echo $row['image'] ?>"> 
         </div>

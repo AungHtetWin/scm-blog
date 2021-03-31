@@ -58,7 +58,7 @@
             <a class="nav-link" href="#">Contact</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="admin/logout.php">Logout</a>
+            <a class="nav-link" href="../admin/logout.php">Logout</a>
           </li>
         </ul>
       </div>
@@ -88,21 +88,31 @@
       <!-- Post Content Column -->
       <div class="col-lg-8">
         <?php 
-          $post_result = mysqli_query($conn, "SELECT posts.id,posts.image,posts.title,posts.body,posts.created_date,posts.modified_date,posts.user_id,users.name FROM posts,users WHERE posts.user_id=users.id ORDER BY created_date DESC"); 
+          if($row['role_id'] ==1){
+            $post_result = mysqli_query($conn, "SELECT posts.*,users.name,users.image as user_photo FROM posts,users WHERE posts.user_id=users.id ORDER BY created_date DESC"); 
+          }
+          else if($row['role_id'] ==2){
+            $post_result = mysqli_query($conn, "SELECT posts.*,users.name,users.image as user_photo FROM posts,users WHERE posts.user_id=users.id AND posts.user_id=$userid ORDER BY created_date DESC"); 
+          }
           while($postrow = mysqli_fetch_assoc($post_result)): 
           $postid= $postrow['id'];
         ?>
          
               <!-- Title -->
               <h1 class="mt-4" id="clear_underline">
-                <a href="post-show.php?id=<?php echo $postrow['id']?>"><?php echo $postrow['title'] ?></a>
+                <a href="post-show.php?id=<?php echo $postrow['id']?>" id="clear_underline"><?php echo $postrow['title'] ?></a>
               </h1>
 
               <!-- Author -->
-              <p class="lead">
-                by
-                <a href="#"><?php echo $postrow['name'] ?> </a>
-              </p>
+             
+                <div class="media mb-4">
+                  <span class="mt-2">by</span> 
+                  <img class="d-flex mr-2 ml-2 rounded-circle" src="../images/<?php echo $postrow['user_photo'] ?>" style="width: 40px; height: 40px;" alt="User Image">
+                    <div class="media-body mt-2">
+                      <a href="#"><?php echo $postrow['name'] ?> </a>
+                    </div>
+                </div> 
+          
               <hr>
               <!-- Date/Time -->
               <p>Posted on <?php echo $postrow['created_date'] ?></p>
@@ -114,45 +124,12 @@
               <p><?php echo $postrow['body'] ?></p>
               <hr> 
         
-          <a href="post-edit.php?id=<?php echo $postrow['id'] ?>">[ Edit ]</a>
+         
 
-          <!-- Comments Form -->
-          <div class="card my-4">
-            <h5 class="card-header">Leave a Comment:</h5>
-            <div class="card-body">
-              <form method="post">
-                <div class="form-group">
-                  <textarea class="form-control" rows="3" name="comment"></textarea>
-                </div>
-                <button type="submit" name="submit<?php echo $postid ?>" class="btn btn-primary" id="<?php echo $postid ?>">Submit</button>
-              </form>
-            </div>
-          </div>
-          <?php 
-             if(isset($_POST['submit'.$postid])){
-                $postcomment= $_POST['comment'];
-                $sql = "INSERT INTO comments (user_id, post_id, body, created_date) 
-                VALUES ('$userid', '$postid', '$postcomment', now())";
-                mysqli_query($conn, $sql); 
-             }
-          ?>    
-            <?php 
-              $commentresult =mysqli_query($conn ,"select c.post_id,c.body,u.image,u.name from users u join comments c on u.id=c.user_id join posts p on p.id=c.post_id"); 
-              while($commentrow = mysqli_fetch_assoc($commentresult)): 
-            ?>
-              <?php if($postrow['id'] == $commentrow['post_id']){ ?> 
-                <!-- Single Comment --> 
-                <div class="media mb-4">
-                  <img class="d-flex mr-3 rounded-circle" src="../images/<?php echo $commentrow['image'] ?>" style="width: 50px; height: 50px;" alt="Blog Image">
-                  <div class="media-body">
-                    <h5 class="mt-0"> <?php echo $commentrow['name'] ?> </h5>
-                    <?php echo $commentrow['body'] ?>
-                  </div>
-                </div> 
-              <?php } ?>   
-            <?php endwhile; ?>   
-        <?php endwhile; ?>    
-        <a href="post-create.php"><button class="btn btn-primary mb-3" type="button">Create New Post!</button></a>
+           
+        <?php endwhile; ?>  
+        <br>  
+        <a href="post-create.php"><button class="btn btn-primary mb-3 mt-3" type="button">Create New Post!</button></a>
       </div>
       
       <!-- Sidebar Widgets Column -->
@@ -196,6 +173,6 @@
     </div>
     <!-- /.container -->
   </footer>
-</body>
-
+</body> 
 </html>
+ 

@@ -2,7 +2,12 @@
  session_start();
  include("connectdb.php");
  $id = $_GET['id'];
- $userid = $_SESSION['userid'];
+ if(isset($_SESSION['userid'])){
+  $userid = $_SESSION['userid'];
+ }
+ else{
+   $userid=1;
+ } 
  $result= mysqli_query($conn ,"SELECT * FROM users WHERE id=$userid");
  $row = mysqli_fetch_assoc($result);
 ?>
@@ -109,7 +114,7 @@
             
                 <!-- Title -->
                 <h1 class="mt-4" id="clear_underline">
-                  <a href="post.php?id=<?php echo $postrow['id']?>"><?php echo $postrow['title'] ?></a>
+                  <a href="post.php?id=<?php echo $postrow['id']?>" id="clear_underline"><?php echo $postrow['title'] ?></a>
                 </h1>
 
                 <!-- Author -->
@@ -126,46 +131,9 @@
                 <p><?php echo $postrow['body'] ?></p>
                 <hr> 
             
-                <!-- Comments Form -->
-                <div class="card my-4">
-                    <h5 class="card-header">Leave a Comment:</h5>
-                    <div class="card-body">
-                    <form method="post">
-                        <div class="form-group">
-                        <textarea class="form-control" rows="3" name="comment"></textarea>
-                        </div>
-                        <button type="submit" name="submit<?php echo $postid ?>" class="btn btn-primary" id="<?php echo $postid ?>">Submit</button>
-                    </form>
-                    </div>
-                </div>
-                <?php 
-                    if(isset($_POST['submit'.$postid])){
-                        $postcomment= $_POST['comment'];
-                        $sql = "INSERT INTO comments (user_id, post_id, body, created_date) 
-                        VALUES ('$userid', '$postid', '$postcomment', now())";
-                        mysqli_query($conn, $sql); 
-                    }
-                ?>    
-                <?php 
-                $commentresult =mysqli_query($conn ,"select c.post_id,c.body,u.name from users u join comments c on u.id=c.user_id join posts p on p.id=c.post_id"); 
-                while($commentrow = mysqli_fetch_assoc($commentresult)): 
-                ?>
-                <?php if($postrow['id'] == $commentrow['post_id']){ ?> 
-                    <!-- Single Comment --> 
-                    <div class="media mb-4">
-                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                    <div class="media-body">
-                        <h5 class="mt-0"> <?php echo $commentrow['name'] ?> </h5>
-                        <?php echo $commentrow['body'] ?>
-                    </div>
-                    </div> 
-                <?php } ?>   
-                <?php endwhile; ?>   
+                
             <?php endwhile; ?>    
         </div>
-      
-     
-
     </div>
     <!-- /.row -->
 
